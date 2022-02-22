@@ -15,7 +15,19 @@ namespace dae
 		void AddComponent(std::shared_ptr<BaseComponent> component);
 		void RemoveComponent(std::shared_ptr<BaseComponent> component);
 		template<typename T>
-		std::shared_ptr<T> GetComponent() const;
+		std::shared_ptr<T> GetComponent() const
+		{
+			for (auto component : m_pComponents)
+			{
+				std::shared_ptr<T> castedComponent = std::dynamic_pointer_cast<T>(component);
+
+				if (castedComponent != nullptr)
+				{
+					return castedComponent;
+				}
+			}
+			return nullptr;
+		}
 
 		void SetParent(std::weak_ptr<GameObject> parent);
 		std::weak_ptr<GameObject> GetParent() const;

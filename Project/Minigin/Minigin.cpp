@@ -65,16 +65,20 @@ void dae::Minigin::LoadGame() const
 
 	std::shared_ptr<GameObject> backgroundObject = std::make_shared<GameObject>();
 	std::shared_ptr<TextureComponent> textureComponent = std::make_shared<TextureComponent>();
-	std::shared_ptr<TransformComponent> transformComponent = std::make_shared<TransformComponent>();
+	textureComponent->SetLinkedGameObject(backgroundObject);
 	textureComponent->SetTexture("background.jpg");
+	std::shared_ptr<TransformComponent> transformComponent = std::make_shared<TransformComponent>();
+	transformComponent->SetLinkedGameObject(backgroundObject);
 	backgroundObject->AddComponent(textureComponent);
 	backgroundObject->AddComponent(transformComponent);
 	scene.Add(backgroundObject);
 
 	std::shared_ptr<GameObject> logoObject = std::make_shared<GameObject>();
 	textureComponent = std::make_shared<TextureComponent>();
-	transformComponent = std::make_shared<TransformComponent>();
+	textureComponent->SetLinkedGameObject(logoObject);
 	textureComponent->SetTexture("logo.png");
+	transformComponent = std::make_shared<TransformComponent>();
+	transformComponent->SetLinkedGameObject(logoObject);
 	transformComponent->SetPosition(216, 180);
 	logoObject->AddComponent(textureComponent);
 	logoObject->AddComponent(transformComponent);
@@ -83,7 +87,9 @@ void dae::Minigin::LoadGame() const
 	std::shared_ptr<GameObject> titleObject = std::make_shared<GameObject>();
 	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 	std::shared_ptr<TextComponent> textComponent = std::make_shared<TextComponent>("Programming 4 Assignment", font);
+	textComponent->SetLinkedGameObject(titleObject);
 	transformComponent = std::make_shared<TransformComponent>();
+	transformComponent->SetLinkedGameObject(titleObject);
 	transformComponent->SetPosition(80, 20);
 	titleObject->AddComponent(textComponent);
 	titleObject->AddComponent(transformComponent);

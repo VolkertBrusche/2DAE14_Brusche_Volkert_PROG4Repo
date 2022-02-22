@@ -1,8 +1,8 @@
 #pragma once
 
-class GameObject;
 namespace dae
 {
+	class GameObject;
 	class BaseComponent
 	{
 	public:
@@ -14,9 +14,9 @@ namespace dae
 		BaseComponent& operator=(const BaseComponent& other) = delete;
 		BaseComponent& operator=(BaseComponent&& other) = delete;
 
-		virtual void Update();
-		virtual void FixedUpdate();
-		virtual void Render() const;
+		virtual void Update() = 0;
+		virtual void FixedUpdate() {};
+		virtual void Render() const {};
 
 		void SetLinkedGameObject(std::shared_ptr<GameObject> linkedGameObject);
 

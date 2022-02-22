@@ -1,7 +1,4 @@
 #pragma once
-#include <iostream>
-#include <memory>
-
 #include "BaseComponent.h"
 
 namespace dae
@@ -11,8 +8,8 @@ namespace dae
 	class TextComponent final : public BaseComponent
 	{
 	public:
-		void Update() override;
-		void Render() const override;
+		virtual void Update() override;
+		virtual void Render() const override;
 
 		void SetText(const std::string& text);
 
@@ -22,6 +19,7 @@ namespace dae
 		TextComponent(TextComponent&& other) = delete;
 		TextComponent& operator=(const TextComponent& other) = delete;
 		TextComponent& operator=(TextComponent&& other) = delete;
+
 	private:
 		bool m_NeedsUpdate;
 		std::string m_Text;

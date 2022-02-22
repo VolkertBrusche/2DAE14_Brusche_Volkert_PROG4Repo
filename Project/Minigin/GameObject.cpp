@@ -7,7 +7,7 @@ dae::GameObject::~GameObject() = default;
 
 void dae::GameObject::Update()
 {
-	for (std::shared_ptr<BaseComponent> pComponent : m_pComponents)
+	for (auto pComponent : m_pComponents)
 	{
 		pComponent->Update();
 	}
@@ -15,7 +15,7 @@ void dae::GameObject::Update()
 
 void dae::GameObject::FixedUpdate()
 {
-	for (std::shared_ptr<BaseComponent> pComponent : m_pComponents)
+	for (auto pComponent : m_pComponents)
 	{
 		pComponent->FixedUpdate();
 	}
@@ -23,7 +23,7 @@ void dae::GameObject::FixedUpdate()
 
 void dae::GameObject::Render() const
 {
-	for (std::shared_ptr<BaseComponent> pComponent : m_pComponents)
+	for (auto pComponent : m_pComponents)
 	{
 		pComponent->Render();
 	}
@@ -37,20 +37,6 @@ void dae::GameObject::AddComponent(std::shared_ptr<BaseComponent> component)
 void dae::GameObject::RemoveComponent(std::shared_ptr<BaseComponent> component)
 {
 	m_pComponents.erase(std::find(m_pComponents.begin(), m_pComponents.end(), component));
-}
-
-template<typename T>
-std::shared_ptr<T> dae::GameObject::GetComponent() const
-{
-	for (std::shared_ptr<T> component : m_pComponents)
-	{
-		std::shared_ptr<T> castedComponent = std::dynamic_pointer_cast<T>(component);
-
-		if (castedComponent != nullptr)
-		{
-			return castedComponent;
-		}
-	}
 }
 
 void dae::GameObject::SetParent(std::weak_ptr<GameObject> parent)

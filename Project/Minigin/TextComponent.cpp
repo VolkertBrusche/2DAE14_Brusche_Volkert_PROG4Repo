@@ -4,6 +4,8 @@
 #include "Renderer.h"
 #include "Font.h"
 #include "Texture2D.h"
+#include "GameObject.h"
+#include "TransformComponent.h"
 
 dae::TextComponent::TextComponent(const std::string& text, const std::shared_ptr<Font>& font)
 	:m_NeedsUpdate(true), m_Text(text), m_Font(font), m_TextTexture(nullptr)
@@ -34,8 +36,8 @@ void dae::TextComponent::Render() const
 {
 	if (m_TextTexture != nullptr)
 	{
-		//const auto& pos = m_Transform.GetPosition();
-		//Renderer::GetInstance().RenderTexture(*m_TextTexture, pos.x, pos.y);
+		const auto& pos = m_pLinkedGameObject.lock().get()->GetComponent<TransformComponent>()->GetPosition();
+		Renderer::GetInstance().RenderTexture(*m_TextTexture, pos.x, pos.y);
 	}
 }
 
