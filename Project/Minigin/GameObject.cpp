@@ -39,14 +39,23 @@ void dae::GameObject::RemoveComponent(std::shared_ptr<BaseComponent> component)
 	m_pComponents.erase(std::find(m_pComponents.begin(), m_pComponents.end(), component));
 }
 
-void dae::GameObject::SetParent(std::weak_ptr<GameObject> parent)
+void dae::GameObject::SetParent(std::shared_ptr<GameObject> parent)
 {
+	if (parent == nullptr)
+	{
+		m_pParent = parent;
+	}
+	if (m_pParent.lock().get() != nullptr)
+	{
+		m_pParent.lock().get()->RemoveChild(shared_from_this());
+	}
 	m_pParent = parent;
+	parent->AddChild(shared_from_this());
 }
 
-std::weak_ptr<dae::GameObject> dae::GameObject::GetParent() const
+std::shared_ptr<dae::GameObject> dae::GameObject::GetParent() const
 {
-	return m_pParent;
+	return m_pParent.lock();
 }
 
 size_t dae::GameObject::GetChildCount() const
@@ -63,12 +72,10 @@ std::shared_ptr<dae::GameObject> dae::GameObject::GetChildAt(size_t idx)
 	return std::shared_ptr<GameObject>();
 }
 
-void dae::GameObject::RemoveChild(size_t idx)
+void dae::GameObject::RemoveChild(std::shared_ptr<GameObject> child)
 {
-	if (idx < m_pChildren.size())
-	{
-		m_pChildren.erase(std::find(m_pChildren.begin(), m_pChildren.end(), m_pChildren.at(idx)));
-	}
+	child->SetParent(std::shared_ptr<GameObject>(nullptr));
+	m_pChildren.erase(std::find(m_pChildren.begin(), m_pChildren.end(), child));
 }
 
 void dae::GameObject::AddChild(std::shared_ptr<GameObject> gameObject)

@@ -72,7 +72,24 @@ void dae::Minigin::LoadGame() const
 	transformComponent->SetLinkedGameObject(backgroundObject);
 	backgroundObject->AddComponent(textureComponent);
 	backgroundObject->AddComponent(transformComponent);
+
+	//Testing RemoveComponent
+	std::shared_ptr<FPSComponent> textComp = std::make_shared<FPSComponent>();
+	textComp->SetLinkedGameObject(backgroundObject);
+	backgroundObject->AddComponent(textComp);
+	backgroundObject->RemoveComponent(backgroundObject->GetComponent<FPSComponent>());
 	scene.Add(backgroundObject);
+
+	//Testing child&parent
+	auto go1 = std::make_shared<GameObject>();
+	auto go2 = std::make_shared<GameObject>();
+	auto go3 = std::make_shared<GameObject>();
+
+	go2->SetParent(go1);
+	go3->SetParent(go1);
+
+	go1->SetParent(go3);
+	go1->SetParent(go2);
 
 	std::shared_ptr<GameObject> logoObject = std::make_shared<GameObject>();
 	textureComponent = std::make_shared<TextureComponent>();

@@ -5,7 +5,7 @@ namespace dae
 	class BaseComponent;
 
 	// todo: this should become final.
-	class GameObject final
+	class GameObject final : public std::enable_shared_from_this<GameObject>
 	{
 	public:
 		void Update(float deltaTime);
@@ -29,12 +29,12 @@ namespace dae
 			return nullptr;
 		}
 
-		void SetParent(std::weak_ptr<GameObject> parent);
-		std::weak_ptr<GameObject> GetParent() const;
+		void SetParent(std::shared_ptr<GameObject> parent);
+		std::shared_ptr<GameObject> GetParent() const;
 
 		size_t GetChildCount() const;
 		std::shared_ptr<GameObject> GetChildAt(size_t idx);
-		void RemoveChild(size_t idx);
+		void RemoveChild(std::shared_ptr<GameObject> child);
 		void AddChild(std::shared_ptr<GameObject> gameObject);
 		
 		GameObject() = default;
