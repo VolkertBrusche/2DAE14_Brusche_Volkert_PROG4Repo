@@ -5,9 +5,16 @@
 #include "SceneManager.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
-#include "TextObject.h"
+
+//Game Components ================
+#include "TextComponent.h"
+#include "TextureComponent.h"
+#include "TransformComponent.h"
+//================================
+
 #include "GameObject.h"
 #include "Scene.h"
+#include <chrono>
 
 using namespace std;
 
@@ -56,19 +63,31 @@ void dae::Minigin::LoadGame() const
 {
 	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
 
-	auto go = std::make_shared<GameObject>();
-	go->SetTexture("background.jpg");
-	scene.Add(go);
+	std::shared_ptr<GameObject> backgroundObject = std::make_shared<GameObject>();
+	std::shared_ptr<TextureComponent> textureComponent = std::make_shared<TextureComponent>();
+	std::shared_ptr<TransformComponent> transformComponent = std::make_shared<TransformComponent>();
+	textureComponent->SetTexture("background.jpg");
+	backgroundObject->AddComponent(textureComponent);
+	backgroundObject->AddComponent(transformComponent);
+	scene.Add(backgroundObject);
 
-	go = std::make_shared<GameObject>();
-	go->SetTexture("logo.png");
-	go->SetPosition(216, 180);
-	scene.Add(go);
+	std::shared_ptr<GameObject> logoObject = std::make_shared<GameObject>();
+	textureComponent = std::make_shared<TextureComponent>();
+	transformComponent = std::make_shared<TransformComponent>();
+	textureComponent->SetTexture("logo.png");
+	transformComponent->SetPosition(216, 180);
+	logoObject->AddComponent(textureComponent);
+	logoObject->AddComponent(transformComponent);
+	scene.Add(logoObject);
 
+	std::shared_ptr<GameObject> titleObject = std::make_shared<GameObject>();
 	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	auto to = std::make_shared<TextObject>("Programming 4 Assignment", font);
-	to->SetPosition(80, 20);
-	scene.Add(to);
+	std::shared_ptr<TextComponent> textComponent = std::make_shared<TextComponent>("Programming 4 Assignment", font);
+	transformComponent = std::make_shared<TransformComponent>();
+	transformComponent->SetPosition(80, 20);
+	titleObject->AddComponent(textComponent);
+	titleObject->AddComponent(transformComponent);
+	scene.Add(titleObject);
 }
 
 void dae::Minigin::Cleanup()
@@ -94,10 +113,23 @@ void dae::Minigin::Run()
 		auto& input = InputManager::GetInstance();
 
 		// todo: this update loop could use some work.
+		float fixedTimeStep = 0.02f;
+
 		bool doContinue = true;
+		auto lastTime = chrono::high_resolution_clock::now();
+		float lag = 0.0f;
 		while (doContinue)
 		{
+			const auto currentTime = chrono::high_resolution_clock::now();
+			float deltaTime = chrono::duration<float>(currentTime - lastTime).count();
+			lastTime = currentTime;
+			lag += deltaTime;
 			doContinue = input.ProcessInput();
+			while (lag >= fixedTimeStep)
+			{
+				sceneManager.FixedUpdate();
+				lag -= fixedTimeStep;
+			}
 			sceneManager.Update();
 			renderer.Render();
 		}

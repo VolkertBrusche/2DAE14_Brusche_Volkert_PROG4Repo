@@ -1,21 +1,30 @@
 #pragma once
-#include "Transform.h"
-#include "SceneObject.h"
-
 namespace dae
 {
 	class Texture2D;
+	class BaseComponent;
 
 	// todo: this should become final.
-	class GameObject : public SceneObject
+	class GameObject final
 	{
 	public:
-		void Update() override;
-		void Render() const override;
+		void Update();
+		void FixedUpdate();
+		void Render() const;
 
-		void SetTexture(const std::string& filename);
-		void SetPosition(float x, float y);
+		void AddComponent(std::shared_ptr<BaseComponent> component);
+		void RemoveComponent(std::shared_ptr<BaseComponent> component);
+		template<typename T>
+		std::shared_ptr<T> GetComponent() const;
 
+		void SetParent(std::weak_ptr<GameObject> parent);
+		std::weak_ptr<GameObject> GetParent() const;
+
+		size_t GetChildCount() const;
+		std::shared_ptr<GameObject> GetChildAt(size_t idx);
+		void RemoveChild(size_t idx);
+		void AddChild(std::shared_ptr<GameObject> gameObject);
+		
 		GameObject() = default;
 		virtual ~GameObject();
 		GameObject(const GameObject& other) = delete;
@@ -24,8 +33,8 @@ namespace dae
 		GameObject& operator=(GameObject&& other) = delete;
 
 	private:
-		Transform m_Transform;
-		// todo: mmm, every gameobject has a texture? Is that correct?
-		std::shared_ptr<Texture2D> m_Texture{};
+		std::vector<std::shared_ptr<BaseComponent>> m_pComponents;
+		std::vector<std::shared_ptr<GameObject>> m_pChildren;
+		std::weak_ptr<GameObject> m_pParent;
 	};
 }
