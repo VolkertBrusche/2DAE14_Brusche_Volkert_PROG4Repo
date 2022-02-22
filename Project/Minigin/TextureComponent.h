@@ -4,7 +4,7 @@
 namespace dae
 {
     class Texture2D;
-    class TextureComponent :
+    class TextureComponent final:
         public BaseComponent
     {
     public:
@@ -16,7 +16,7 @@ namespace dae
         TextureComponent& operator=(const TextureComponent& other) = delete;
         TextureComponent& operator=(TextureComponent&& other) = delete;
 
-        virtual void Update() override {};
+        virtual void Update(float) override {};
         virtual void Render() const override;
 
         void SetTexture(const std::string& filename);

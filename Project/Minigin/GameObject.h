@@ -8,8 +8,8 @@ namespace dae
 	class GameObject final
 	{
 	public:
-		void Update();
-		void FixedUpdate();
+		void Update(float deltaTime);
+		void FixedUpdate(float fixedTimeStamp);
 		void Render() const;
 
 		void AddComponent(std::shared_ptr<BaseComponent> component);

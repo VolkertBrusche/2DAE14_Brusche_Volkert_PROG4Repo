@@ -8,10 +8,11 @@ namespace dae
 	class TextComponent final : public BaseComponent
 	{
 	public:
-		virtual void Update() override;
+		virtual void Update(float deltaTime) override;
 		virtual void Render() const override;
 
 		void SetText(const std::string& text);
+		void SetColor(const SDL_Color color);
 
 		explicit TextComponent(const std::string& text, const std::shared_ptr<Font>& font);
 		virtual ~TextComponent() = default;
@@ -25,5 +26,6 @@ namespace dae
 		std::string m_Text;
 		std::shared_ptr<Font> m_Font;
 		std::shared_ptr<Texture2D> m_TextTexture;
+		SDL_Color m_Color;
 	};
 }

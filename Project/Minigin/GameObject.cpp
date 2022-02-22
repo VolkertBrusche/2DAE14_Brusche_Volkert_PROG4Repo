@@ -5,19 +5,19 @@
 
 dae::GameObject::~GameObject() = default;
 
-void dae::GameObject::Update()
+void dae::GameObject::Update(float deltaTime)
 {
 	for (auto pComponent : m_pComponents)
 	{
-		pComponent->Update();
+		pComponent->Update(deltaTime);
 	}
 }
 
-void dae::GameObject::FixedUpdate()
+void dae::GameObject::FixedUpdate(float fixedTimeStamp)
 {
 	for (auto pComponent : m_pComponents)
 	{
-		pComponent->FixedUpdate();
+		pComponent->FixedUpdate(fixedTimeStamp);
 	}
 }
 

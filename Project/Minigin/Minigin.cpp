@@ -10,6 +10,7 @@
 #include "TextComponent.h"
 #include "TextureComponent.h"
 #include "TransformComponent.h"
+#include "FPSComponent.h"
 //================================
 
 #include "GameObject.h"
@@ -85,8 +86,8 @@ void dae::Minigin::LoadGame() const
 	scene.Add(logoObject);
 
 	std::shared_ptr<GameObject> titleObject = std::make_shared<GameObject>();
-	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	std::shared_ptr<TextComponent> textComponent = std::make_shared<TextComponent>("Programming 4 Assignment", font);
+	auto titleFont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
+	std::shared_ptr<TextComponent> textComponent = std::make_shared<TextComponent>("Programming 4 Assignment", titleFont);
 	textComponent->SetLinkedGameObject(titleObject);
 	transformComponent = std::make_shared<TransformComponent>();
 	transformComponent->SetLinkedGameObject(titleObject);
@@ -94,6 +95,21 @@ void dae::Minigin::LoadGame() const
 	titleObject->AddComponent(textComponent);
 	titleObject->AddComponent(transformComponent);
 	scene.Add(titleObject);
+
+	std::shared_ptr<GameObject> FPSObject = std::make_shared<GameObject>();
+	auto FPSFont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 18);
+	textComponent = std::make_shared<TextComponent>("00 FPS", FPSFont);
+	textComponent->SetColor({ 255, 255, 0 });
+	textComponent->SetLinkedGameObject(FPSObject);
+	transformComponent = std::make_shared<TransformComponent>();
+	transformComponent->SetLinkedGameObject(FPSObject);
+	transformComponent->SetPosition(10, 10);
+	std::shared_ptr<FPSComponent> fpsComponent = std::make_shared<FPSComponent>();
+	fpsComponent->SetLinkedGameObject(FPSObject);
+	FPSObject->AddComponent(textComponent);
+	FPSObject->AddComponent(transformComponent);
+	FPSObject->AddComponent(fpsComponent);
+	scene.Add(FPSObject);
 }
 
 void dae::Minigin::Cleanup()
@@ -133,10 +149,10 @@ void dae::Minigin::Run()
 			doContinue = input.ProcessInput();
 			while (lag >= fixedTimeStep)
 			{
-				sceneManager.FixedUpdate();
+				sceneManager.FixedUpdate(fixedTimeStep);
 				lag -= fixedTimeStep;
 			}
-			sceneManager.Update();
+			sceneManager.Update(deltaTime);
 			renderer.Render();
 		}
 	}
