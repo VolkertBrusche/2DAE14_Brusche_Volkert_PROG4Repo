@@ -69,7 +69,7 @@ std::shared_ptr<dae::GameObject> dae::GameObject::GetChildAt(size_t idx)
 	{
 		return m_pChildren[idx];
 	}
-	return std::shared_ptr<GameObject>();
+	return std::shared_ptr<GameObject>(nullptr);
 }
 
 void dae::GameObject::RemoveChild(std::shared_ptr<GameObject> child)

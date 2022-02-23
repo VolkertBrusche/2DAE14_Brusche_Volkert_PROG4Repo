@@ -4,11 +4,10 @@
 namespace dae
 {
     class Texture2D;
-    class TextureComponent final:
-        public BaseComponent
+    class TextureComponent final : public BaseComponent, public std::enable_shared_from_this<TextureComponent>
     {
     public:
-        TextureComponent() = default;
+        TextureComponent(std::shared_ptr<GameObject> gameObject);
         virtual ~TextureComponent();
 
         TextureComponent(const TextureComponent& other) = delete;

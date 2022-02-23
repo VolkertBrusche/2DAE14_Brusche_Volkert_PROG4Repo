@@ -1,7 +1,7 @@
 #include "MiniginPCH.h"
 #include "BaseComponent.h"
 
-void dae::BaseComponent::SetLinkedGameObject(std::shared_ptr<GameObject> linkedGameObject)
+dae::BaseComponent::BaseComponent(std::shared_ptr<GameObject> gameObject)
+	:m_pLinkedGameObject{gameObject}
 {
-	m_pLinkedGameObject = linkedGameObject;
 }

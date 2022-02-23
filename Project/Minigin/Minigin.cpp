@@ -66,37 +66,37 @@ void dae::Minigin::LoadGame() const
 
 	std::shared_ptr<GameObject> backgroundObject = std::make_shared<GameObject>();
 	std::shared_ptr<TextureComponent> textureComponent = std::make_shared<TextureComponent>();
-	textureComponent->SetLinkedGameObject(backgroundObject);
+	textureComponent->SetLinkedGameObject(backgroundObject); //To-Do: Fix this
 	textureComponent->SetTexture("background.jpg");
 	std::shared_ptr<TransformComponent> transformComponent = std::make_shared<TransformComponent>();
-	transformComponent->SetLinkedGameObject(backgroundObject);
+	transformComponent->SetLinkedGameObject(backgroundObject); //To-Do: Fix this
 	backgroundObject->AddComponent(textureComponent);
 	backgroundObject->AddComponent(transformComponent);
 
 	//Testing RemoveComponent
 	std::shared_ptr<FPSComponent> textComp = std::make_shared<FPSComponent>();
-	textComp->SetLinkedGameObject(backgroundObject);
+	textComp->SetLinkedGameObject(backgroundObject); //To-Do: Fix this
 	backgroundObject->AddComponent(textComp);
 	backgroundObject->RemoveComponent(backgroundObject->GetComponent<FPSComponent>());
 	scene.Add(backgroundObject);
 
 	//Testing child&parent
-	auto go1 = std::make_shared<GameObject>();
-	auto go2 = std::make_shared<GameObject>();
-	auto go3 = std::make_shared<GameObject>();
+	//auto go1 = std::make_shared<GameObject>();
+	//auto go2 = std::make_shared<GameObject>();
+	//auto go3 = std::make_shared<GameObject>();
 
-	go2->SetParent(go1);
-	go3->SetParent(go1);
+	//go2->SetParent(go1);
+	//go3->SetParent(go1);
 
-	go1->SetParent(go3);
-	go1->SetParent(go2);
+	//go1->SetParent(go3);
+	//go1->SetParent(go2);
 
 	std::shared_ptr<GameObject> logoObject = std::make_shared<GameObject>();
 	textureComponent = std::make_shared<TextureComponent>();
-	textureComponent->SetLinkedGameObject(logoObject);
+	textureComponent->SetLinkedGameObject(logoObject); //To-Do: Fix this
 	textureComponent->SetTexture("logo.png");
 	transformComponent = std::make_shared<TransformComponent>();
-	transformComponent->SetLinkedGameObject(logoObject);
+	transformComponent->SetLinkedGameObject(logoObject); //To-Do: Fix this
 	transformComponent->SetPosition(216, 180);
 	logoObject->AddComponent(textureComponent);
 	logoObject->AddComponent(transformComponent);
@@ -105,9 +105,9 @@ void dae::Minigin::LoadGame() const
 	std::shared_ptr<GameObject> titleObject = std::make_shared<GameObject>();
 	auto titleFont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 	std::shared_ptr<TextComponent> textComponent = std::make_shared<TextComponent>("Programming 4 Assignment", titleFont);
-	textComponent->SetLinkedGameObject(titleObject);
+	textComponent->SetLinkedGameObject(titleObject); //To-Do: Fix this
 	transformComponent = std::make_shared<TransformComponent>();
-	transformComponent->SetLinkedGameObject(titleObject);
+	transformComponent->SetLinkedGameObject(titleObject); //To-Do: Fix this
 	transformComponent->SetPosition(80, 20);
 	titleObject->AddComponent(textComponent);
 	titleObject->AddComponent(transformComponent);
@@ -117,12 +117,12 @@ void dae::Minigin::LoadGame() const
 	auto FPSFont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 18);
 	textComponent = std::make_shared<TextComponent>("00 FPS", FPSFont);
 	textComponent->SetColor({ 255, 255, 0 });
-	textComponent->SetLinkedGameObject(FPSObject);
+	textComponent->SetLinkedGameObject(FPSObject); //To-Do: Fix this
 	transformComponent = std::make_shared<TransformComponent>();
-	transformComponent->SetLinkedGameObject(FPSObject);
-	transformComponent->SetPosition(10, 10);
+	transformComponent->SetLinkedGameObject(FPSObject); //To-Do: Fix this
+	transformComponent->SetPosition(10, 10); 
 	std::shared_ptr<FPSComponent> fpsComponent = std::make_shared<FPSComponent>();
-	fpsComponent->SetLinkedGameObject(FPSObject);
+	fpsComponent->SetLinkedGameObject(FPSObject); //To-Do: Fix this
 	FPSObject->AddComponent(textComponent);
 	FPSObject->AddComponent(transformComponent);
 	FPSObject->AddComponent(fpsComponent);

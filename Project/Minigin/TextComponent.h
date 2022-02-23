@@ -5,7 +5,8 @@ namespace dae
 {
 	class Font;
 	class Texture2D;
-	class TextComponent final : public BaseComponent
+	class GameObject;
+	class TextComponent final : public BaseComponent, public std::enable_shared_from_this<TextComponent>
 	{
 	public:
 		virtual void Update(float deltaTime) override;
@@ -14,7 +15,7 @@ namespace dae
 		void SetText(const std::string& text);
 		void SetColor(const SDL_Color color);
 
-		explicit TextComponent(const std::string& text, const std::shared_ptr<Font>& font);
+		explicit TextComponent(const std::string& text, const std::shared_ptr<Font>& font, std::shared_ptr<GameObject> gameObject);
 		virtual ~TextComponent() = default;
 		TextComponent(const TextComponent& other) = delete;
 		TextComponent(TextComponent&& other) = delete;

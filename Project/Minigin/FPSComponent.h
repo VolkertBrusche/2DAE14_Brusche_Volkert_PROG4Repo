@@ -2,11 +2,11 @@
 #include "BaseComponent.h"
 namespace dae
 {
-    class FPSComponent final:
-        public BaseComponent
+    class GameObject;
+    class FPSComponent final : public BaseComponent, public std::enable_shared_from_this<FPSComponent>
     {
     public:
-        FPSComponent() = default;
+        FPSComponent(std::shared_ptr<GameObject> gameObject);
         virtual ~FPSComponent();
 
         virtual void Update(float deltaTime) override;

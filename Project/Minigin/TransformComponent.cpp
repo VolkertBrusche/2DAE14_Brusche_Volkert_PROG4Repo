@@ -1,5 +1,12 @@
 #include "MiniginPCH.h"
 #include "TransformComponent.h"
+#include "GameObject.h"
+
+dae::TransformComponent::TransformComponent(std::shared_ptr<GameObject> gameObject)
+	:BaseComponent{gameObject}
+{
+	gameObject->AddComponent(shared_from_this());
+}
 
 void dae::TransformComponent::SetPosition(const float x, const float y, const float z)
 {

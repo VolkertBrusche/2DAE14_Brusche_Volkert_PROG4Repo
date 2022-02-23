@@ -5,6 +5,12 @@
 #include "GameObject.h"
 #include "TransformComponent.h"
 
+dae::TextureComponent::TextureComponent(std::shared_ptr<GameObject> gameObject)
+	:BaseComponent{gameObject}
+{
+	gameObject->AddComponent(shared_from_this());
+}
+
 dae::TextureComponent::~TextureComponent()
 {
 	m_pTexture = nullptr;
