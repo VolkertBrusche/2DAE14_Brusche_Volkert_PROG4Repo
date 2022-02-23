@@ -6,7 +6,7 @@
 dae::FPSComponent::FPSComponent(std::shared_ptr<GameObject> gameObject)
 	:BaseComponent{gameObject}
 {
-	gameObject->AddComponent(shared_from_this());
+	//gameObject->AddComponent(shared_from_this());
 }
 
 dae::FPSComponent::~FPSComponent()

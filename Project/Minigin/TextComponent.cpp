@@ -10,7 +10,7 @@
 dae::TextComponent::TextComponent(const std::string& text, const std::shared_ptr<Font>& font, std::shared_ptr<GameObject> gameObject)
 	:BaseComponent{gameObject}, m_NeedsUpdate(true), m_Text(text), m_Font(font), m_TextTexture(nullptr), m_Color{255,255,255}
 {
-	gameObject->AddComponent(shared_from_this());
+	//gameObject->AddComponent(shared_from_this());
 }
 
 void dae::TextComponent::Update(float)

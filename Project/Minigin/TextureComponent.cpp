@@ -8,7 +8,7 @@
 dae::TextureComponent::TextureComponent(std::shared_ptr<GameObject> gameObject)
 	:BaseComponent{gameObject}
 {
-	gameObject->AddComponent(shared_from_this());
+	//gameObject->AddComponent(shared_from_this());
 }
 
 dae::TextureComponent::~TextureComponent()

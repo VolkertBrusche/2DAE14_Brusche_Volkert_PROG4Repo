@@ -65,17 +65,14 @@ void dae::Minigin::LoadGame() const
 	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
 
 	std::shared_ptr<GameObject> backgroundObject = std::make_shared<GameObject>();
-	std::shared_ptr<TextureComponent> textureComponent = std::make_shared<TextureComponent>();
-	textureComponent->SetLinkedGameObject(backgroundObject); //To-Do: Fix this
+	std::shared_ptr<TextureComponent> textureComponent = std::make_shared<TextureComponent>(backgroundObject);
 	textureComponent->SetTexture("background.jpg");
-	std::shared_ptr<TransformComponent> transformComponent = std::make_shared<TransformComponent>();
-	transformComponent->SetLinkedGameObject(backgroundObject); //To-Do: Fix this
 	backgroundObject->AddComponent(textureComponent);
+	std::shared_ptr<TransformComponent> transformComponent = std::make_shared<TransformComponent>(backgroundObject);
 	backgroundObject->AddComponent(transformComponent);
 
 	//Testing RemoveComponent
-	std::shared_ptr<FPSComponent> textComp = std::make_shared<FPSComponent>();
-	textComp->SetLinkedGameObject(backgroundObject); //To-Do: Fix this
+	std::shared_ptr<FPSComponent> textComp = std::make_shared<FPSComponent>(backgroundObject);
 	backgroundObject->AddComponent(textComp);
 	backgroundObject->RemoveComponent(backgroundObject->GetComponent<FPSComponent>());
 	scene.Add(backgroundObject);
@@ -92,39 +89,32 @@ void dae::Minigin::LoadGame() const
 	//go1->SetParent(go2);
 
 	std::shared_ptr<GameObject> logoObject = std::make_shared<GameObject>();
-	textureComponent = std::make_shared<TextureComponent>();
-	textureComponent->SetLinkedGameObject(logoObject); //To-Do: Fix this
+	textureComponent = std::make_shared<TextureComponent>(logoObject);
 	textureComponent->SetTexture("logo.png");
-	transformComponent = std::make_shared<TransformComponent>();
-	transformComponent->SetLinkedGameObject(logoObject); //To-Do: Fix this
-	transformComponent->SetPosition(216, 180);
 	logoObject->AddComponent(textureComponent);
+	transformComponent = std::make_shared<TransformComponent>(logoObject);
+	transformComponent->SetPosition(216, 180);
 	logoObject->AddComponent(transformComponent);
 	scene.Add(logoObject);
 
 	std::shared_ptr<GameObject> titleObject = std::make_shared<GameObject>();
 	auto titleFont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	std::shared_ptr<TextComponent> textComponent = std::make_shared<TextComponent>("Programming 4 Assignment", titleFont);
-	textComponent->SetLinkedGameObject(titleObject); //To-Do: Fix this
-	transformComponent = std::make_shared<TransformComponent>();
-	transformComponent->SetLinkedGameObject(titleObject); //To-Do: Fix this
-	transformComponent->SetPosition(80, 20);
+	std::shared_ptr<TextComponent> textComponent = std::make_shared<TextComponent>("Programming 4 Assignment", titleFont, titleObject);
 	titleObject->AddComponent(textComponent);
+	transformComponent = std::make_shared<TransformComponent>(titleObject);
+	transformComponent->SetPosition(80, 20);
 	titleObject->AddComponent(transformComponent);
 	scene.Add(titleObject);
 
 	std::shared_ptr<GameObject> FPSObject = std::make_shared<GameObject>();
 	auto FPSFont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 18);
-	textComponent = std::make_shared<TextComponent>("00 FPS", FPSFont);
+	textComponent = std::make_shared<TextComponent>("00 FPS", FPSFont, FPSObject);
 	textComponent->SetColor({ 255, 255, 0 });
-	textComponent->SetLinkedGameObject(FPSObject); //To-Do: Fix this
-	transformComponent = std::make_shared<TransformComponent>();
-	transformComponent->SetLinkedGameObject(FPSObject); //To-Do: Fix this
-	transformComponent->SetPosition(10, 10); 
-	std::shared_ptr<FPSComponent> fpsComponent = std::make_shared<FPSComponent>();
-	fpsComponent->SetLinkedGameObject(FPSObject); //To-Do: Fix this
 	FPSObject->AddComponent(textComponent);
+	transformComponent = std::make_shared<TransformComponent>(FPSObject);
+	transformComponent->SetPosition(10, 10); 
 	FPSObject->AddComponent(transformComponent);
+	std::shared_ptr<FPSComponent> fpsComponent = std::make_shared<FPSComponent>(FPSObject);
 	FPSObject->AddComponent(fpsComponent);
 	scene.Add(FPSObject);
 }
