@@ -1,5 +1,6 @@
 #pragma once
 #include "Singleton.h"
+#include <vector>
 
 namespace dae
 {
@@ -24,6 +25,14 @@ namespace dae
 
 		const SDL_Color& GetBackgroundColor() const { return m_clearColor; }
 		void SetBackgroundColor(const SDL_Color& color) { m_clearColor = color; }
+
+	private:
+		//IMGUI Variables & Functions ====================================================
+		void TTCIntBuffer() const;
+		
+		int m_Samples{100};
+		int m_MaxStepSize{1024};
+		//================================================================================
 	};
 }
 
