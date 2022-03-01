@@ -27,12 +27,6 @@ namespace dae
 		void SetBackgroundColor(const SDL_Color& color) { m_clearColor = color; }
 
 	private:
-		//IMGUI Variables & Functions ====================================================
-		void TTCIntBuffer() const;
-		
-		int m_Samples{100};
-		int m_MaxStepSize{1024};
-		//================================================================================
 	};
 }
 

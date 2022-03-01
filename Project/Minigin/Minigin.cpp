@@ -11,6 +11,7 @@
 #include "TextureComponent.h"
 #include "TransformComponent.h"
 #include "FPSComponent.h"
+#include "ImGuiComponent.h"
 //================================
 
 #include "GameObject.h"
@@ -117,6 +118,11 @@ void dae::Minigin::LoadGame() const
 	std::shared_ptr<FPSComponent> fpsComponent = std::make_shared<FPSComponent>(FPSObject);
 	FPSObject->AddComponent(fpsComponent);
 	scene.Add(FPSObject);
+
+	std::shared_ptr<GameObject> ImGuiObject = std::make_shared<GameObject>();
+	std::shared_ptr<ImGuiComponent> imGuiComponent = std::make_shared<ImGuiComponent>(ImGuiObject, m_Window);
+	ImGuiObject->AddComponent(imGuiComponent);
+	scene.Add(ImGuiObject);
 }
 
 void dae::Minigin::Cleanup()
