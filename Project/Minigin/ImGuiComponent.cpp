@@ -194,7 +194,7 @@ void dae::ImGuiComponent::TTCIntBuffer()
 		for (int repeat = 0; repeat < m_SamplesTTCInt; ++repeat)
 		{
 			auto start = std::chrono::high_resolution_clock::now();
-			for (int i = 0; i < intBuffer.size(); i += stepSize)
+			for (size_t i = 0; i < intBuffer.size(); i += stepSize)
 				intBuffer[i] *= 2;
 			auto end = std::chrono::high_resolution_clock::now();
 			deltaTime += std::chrono::duration<float, std::milli>(end - start).count();
@@ -215,7 +215,7 @@ void dae::ImGuiComponent::TTCGoBuffer()
 		for (int repeat = 0; repeat < m_SamplesTTCGO; ++repeat)
 		{
 			auto start = std::chrono::high_resolution_clock::now();
-			for (int i = 0; i < goBuffer.size(); i += stepSize)
+			for (size_t i = 0; i < goBuffer.size(); i += stepSize)
 				goBuffer[i].ID = 2;
 			auto end = std::chrono::high_resolution_clock::now();
 			deltaTime += std::chrono::duration<float, std::milli>(end - start).count();
@@ -237,7 +237,7 @@ void dae::ImGuiComponent::TTCGoAltBuffer()
 		for (int repeat = 0; repeat < m_SamplesTTCGO; ++repeat)
 		{
 			auto start = std::chrono::high_resolution_clock::now();
-			for (int i = 0; i < goAltBuffer.size(); i += stepSize)
+			for (size_t i = 0; i < goAltBuffer.size(); i += stepSize)
 				goAltBuffer[i].ID = 2;
 			auto end = std::chrono::high_resolution_clock::now();
 			deltaTime += std::chrono::duration<float, std::milli>(end - start).count();
