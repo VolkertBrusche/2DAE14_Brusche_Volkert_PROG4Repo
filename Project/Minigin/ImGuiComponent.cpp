@@ -104,12 +104,16 @@ void dae::ImGuiComponent::Update(float)
 	if (isTTCGoButtonPressed)
 	{
 		//Trash the cache GameObject3D plot config =================================
+		float max = *std::max_element(m_ResultsTTCGo.cbegin(), m_ResultsTTCGo.cend());
+		if (max > m_MaxElement)
+			m_MaxElement = max;
+
 		ImGui::PlotConfig confTTCGo;
 		confTTCGo.values.xs = m_StepSizes.data();
 		confTTCGo.values.ys = m_ResultsTTCGo.data();
 		confTTCGo.values.count = static_cast<int>(m_StepSizes.size());
 		confTTCGo.scale.min = 0;
-		confTTCGo.scale.max = *std::max_element(m_ResultsTTCGo.cbegin(), m_ResultsTTCGo.cend());;
+		confTTCGo.scale.max = m_MaxElement;
 		confTTCGo.tooltip.show = true;
 		confTTCGo.tooltip.format = "x=%.2f, y=%.2f";
 		confTTCGo.grid_x.show = true;
@@ -127,13 +131,17 @@ void dae::ImGuiComponent::Update(float)
 	}
 	if (isTTCGoAltButtonPressed)
 	{
+		float max = *std::max_element(m_ResultsTTCGoAlt.cbegin(), m_ResultsTTCGoAlt.cend());
+		if (max > m_MaxElement)
+			m_MaxElement = max;
+
 		//Trash the cache GameObject3DAlt plot config ==============================
 		ImGui::PlotConfig confTTCGoAlt;
 		confTTCGoAlt.values.xs = m_StepSizes.data();
 		confTTCGoAlt.values.ys = m_ResultsTTCGoAlt.data();
 		confTTCGoAlt.values.count = static_cast<int>(m_StepSizes.size());
 		confTTCGoAlt.scale.min = 0;
-		confTTCGoAlt.scale.max = *std::max_element(m_ResultsTTCGoAlt.cbegin(), m_ResultsTTCGoAlt.cend());;
+		confTTCGoAlt.scale.max = m_MaxElement;
 		confTTCGoAlt.tooltip.show = true;
 		confTTCGoAlt.tooltip.format = "x=%.2f, y=%.2f";
 		confTTCGoAlt.grid_x.show = true;
@@ -145,27 +153,23 @@ void dae::ImGuiComponent::Update(float)
 	}
 	if (isTTCGoButtonPressed && isTTCGoAltButtonPressed)
 	{
-		std::vector<float*> pResultsCombined{};
-		for (float result : m_ResultsTTCGo)
-			pResultsCombined.push_back(new float(result));
-		for (float result : m_ResultsTTCGoAlt)
-			pResultsCombined.push_back(new float(result));
+		const float* pResultsCombined[] = { m_ResultsTTCGo.data(), m_ResultsTTCGoAlt.data()};
 
 		//Trash the cache GameObject3DAlt plot config ==============================
-		//ImGui::PlotConfig confTTCCombined;
-		//confTTCCombined.values.xs = m_StepSizes.data();
-		//confTTCCombined.values.ys_list = pResultsCombined.data();
-		//confTTCCombined.values.ys_count = 2;
-		//confTTCCombined.values.count = static_cast<int>(m_StepSizes.size());
-		//confTTCCombined.scale.min = 0;
-		//confTTCCombined.scale.max = *std::max_element(*pResultsCombined.cbegin(), *pResultsCombined.cend());;
-		//confTTCCombined.tooltip.show = true;
-		//confTTCCombined.tooltip.format = "x=%.2f, y=%.2f";
-		//confTTCCombined.grid_x.show = true;
-		//confTTCCombined.grid_y.show = true;
-		//confTTCCombined.frame_size = ImVec2(200, 100);
-		//confTTCCombined.line_thickness = 2.f;
-		//ImGui::Plot("Combined Buffer", confTTCCombined);
+		ImGui::PlotConfig confTTCCombined;
+		confTTCCombined.values.xs = m_StepSizes.data();
+		confTTCCombined.values.ys_list = &pResultsCombined[0];
+		confTTCCombined.values.ys_count = 2;
+		confTTCCombined.values.count = static_cast<int>(m_StepSizes.size());
+		confTTCCombined.scale.min = 0;
+		confTTCCombined.scale.max = m_MaxElement;
+		confTTCCombined.tooltip.show = true;
+		confTTCCombined.tooltip.format = "x=%.2f, y=%.2f";
+		confTTCCombined.grid_x.show = true;
+		confTTCCombined.grid_y.show = true;
+		confTTCCombined.frame_size = ImVec2(200, 100);
+		confTTCCombined.line_thickness = 2.f;
+		ImGui::Plot("Combined Buffer", confTTCCombined);
 		//==========================================================================
 	}
 	ImGui::End();

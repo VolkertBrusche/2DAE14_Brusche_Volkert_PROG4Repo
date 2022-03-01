@@ -25,6 +25,8 @@ namespace dae
         int m_MaxStepSize{ 1024 };
         int m_BaseStepSize{ 1 };
 
+        float m_MaxElement{ 0.f };
+
         std::vector<float> m_ResultsTTCInt{};
         std::vector<float> m_ResultsTTCGo{};
         std::vector<float> m_ResultsTTCGoAlt{};
