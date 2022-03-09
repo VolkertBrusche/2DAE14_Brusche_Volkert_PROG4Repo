@@ -79,15 +79,15 @@ void dae::Minigin::LoadGame() const
 	scene.Add(backgroundObject);
 
 	//Testing child&parent
-	//auto go1 = std::make_shared<GameObject>();
-	//auto go2 = std::make_shared<GameObject>();
-	//auto go3 = std::make_shared<GameObject>();
+	auto go1 = std::make_shared<GameObject>();
+	auto go2 = std::make_shared<GameObject>();
+	auto go3 = std::make_shared<GameObject>();
 
-	//go2->SetParent(go1);
-	//go3->SetParent(go1);
+	go2->SetParent(go1);
+	go3->SetParent(go1);
 
-	//go1->SetParent(go3);
-	//go1->SetParent(go2);
+	go1->SetParent(go3);
+	go1->SetParent(go2);
 
 	std::shared_ptr<GameObject> logoObject = std::make_shared<GameObject>();
 	textureComponent = std::make_shared<TextureComponent>(logoObject);
