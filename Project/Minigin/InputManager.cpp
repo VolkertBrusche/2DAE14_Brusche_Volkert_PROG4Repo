@@ -2,42 +2,36 @@
 #include "InputManager.h"
 #include <backends\imgui_impl_sdl.h>
 
+dae::InputManager::InputManager()
+{
+	m_pXboxController = new XBox360Controller(0);
+}
+
+dae::InputManager::~InputManager()
+{
+	delete m_pXboxController;
+}
+
 bool dae::InputManager::ProcessInput()
 {
-	ZeroMemory(&m_CurrentState, sizeof(XINPUT_STATE));
-	XInputGetState(0, &m_CurrentState);
+	// todo: read the input;
+	m_pXboxController->Update();
 
-	SDL_Event e;
-	while (SDL_PollEvent(&e)) {
-		if (e.type == SDL_QUIT) {
+	for (ControllerCommandMap::iterator controllerIt = m_ConsoleCommands.begin(); controllerIt != m_ConsoleCommands.end(); ++controllerIt)
+	{
+		if (m_pXboxController->IsDown(controllerIt->first.second))
+			controllerIt->second->Execute();
+
+		//Quick and dirty solution for ending the program
+		if (m_pXboxController->IsPressed(XBox360Controller::ControllerButton::Back))
 			return false;
-		}
-		if (e.type == SDL_KEYDOWN) {
-			
-		}
-		if (e.type == SDL_MOUSEBUTTONDOWN) {
-			
-		}
-		//process event for IMGUI
-		ImGui_ImplSDL2_ProcessEvent(&e);
 	}
 
 	return true;
 }
 
-bool dae::InputManager::IsPressed(ControllerButton button) const
+void dae::InputManager::SetButtonCommand(unsigned int controllerIndex, XBox360Controller::ControllerButton button, Command* command)
 {
-	switch (button)
-	{
-	case ControllerButton::ButtonA:
-		return m_CurrentState.Gamepad.wButtons & XINPUT_GAMEPAD_A;
-	case ControllerButton::ButtonB:
-		return m_CurrentState.Gamepad.wButtons & XINPUT_GAMEPAD_B;
-	case ControllerButton::ButtonX:
-		return m_CurrentState.Gamepad.wButtons & XINPUT_GAMEPAD_X;
-	case ControllerButton::ButtonY:
-		return m_CurrentState.Gamepad.wButtons & XINPUT_GAMEPAD_Y;
-	default: return false;
-	}
+	m_ConsoleCommands[ControllerKey(controllerIndex, button)] = std::unique_ptr<Command>(command);
 }
 

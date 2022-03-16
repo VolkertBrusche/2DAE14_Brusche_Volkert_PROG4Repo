@@ -1,24 +1,31 @@
 #pragma once
-#include <XInput.h>
 #include "Singleton.h"
+#include <memory>
+#include <map>
+#include "Commands.h"
+#include "XBox360Controller.h"
 
 namespace dae
 {
-	enum class ControllerButton
-	{
-		ButtonA,
-		ButtonB,
-		ButtonX,
-		ButtonY
-	};
-
 	class InputManager final : public Singleton<InputManager>
 	{
+		using ControllerKey = std::pair<unsigned, XBox360Controller::ControllerButton>;
+		using ControllerCommandMap = std::map<ControllerKey, std::unique_ptr<Command>>;
+
 	public:
+		InputManager();
+		~InputManager();
+
 		bool ProcessInput();
-		bool IsPressed(ControllerButton button) const;
+
+		void SetButtonCommand(unsigned int controllerIndex, XBox360Controller::ControllerButton button, Command* command);
+
+		bool m_IsLooping{ true };
+
 	private:
-		XINPUT_STATE m_CurrentState{};
+		XBox360Controller* m_pXboxController;
+
+		ControllerCommandMap m_ConsoleCommands{};
 	};
 
 }

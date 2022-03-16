@@ -195,6 +195,7 @@
     <ClInclude Include="..\3rdParty\imgui-1.81\imstb_textedit.h" />
     <ClInclude Include="..\3rdParty\imgui-1.81\imstb_truetype.h" />
     <ClInclude Include="BaseComponent.h" />
+    <ClInclude Include="Commands.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="FPSComponent.h" />
     <ClInclude Include="GameObject.h" />
@@ -211,6 +212,7 @@
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="TextureComponent.h" />
     <ClInclude Include="TransformComponent.h" />
+    <ClInclude Include="XBox360Controller.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdParty\imgui-1.81\backends\imgui_impl_opengl2.cpp">
@@ -294,6 +296,7 @@
       <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">TurnOffAllWarnings</WarningLevel>
     </ClCompile>
     <ClCompile Include="BaseComponent.cpp" />
+    <ClCompile Include="Commands.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="FPSComponent.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -316,6 +319,7 @@
     <ClCompile Include="Texture2D.cpp" />
     <ClCompile Include="TextureComponent.cpp" />
     <ClCompile Include="TransformComponent.cpp" />
+    <ClCompile Include="XBox360Controller.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

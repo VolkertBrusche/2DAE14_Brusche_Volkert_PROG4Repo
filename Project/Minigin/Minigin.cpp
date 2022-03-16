@@ -5,6 +5,7 @@
 #include "SceneManager.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
+#include "Commands.h"
 
 //Game Components ================
 #include "TextComponent.h"
@@ -123,6 +124,13 @@ void dae::Minigin::LoadGame() const
 	std::shared_ptr<ImGuiComponent> imGuiComponent = std::make_shared<ImGuiComponent>(ImGuiObject, m_Window);
 	ImGuiObject->AddComponent(imGuiComponent);
 	scene.Add(ImGuiObject);
+
+	//InputManager
+	auto& input = InputManager::GetInstance();
+	input.SetButtonCommand(0, XBox360Controller::ControllerButton::ButtonA, new JumpCommand());
+	input.SetButtonCommand(0, XBox360Controller::ControllerButton::ButtonB, new FireCommand());
+	input.SetButtonCommand(0, XBox360Controller::ControllerButton::ButtonX, new CrouchCommand());
+	input.SetButtonCommand(0, XBox360Controller::ControllerButton::ButtonY, new SwapGunCommand());
 }
 
 void dae::Minigin::Cleanup()

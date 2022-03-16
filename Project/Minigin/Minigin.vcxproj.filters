@@ -96,6 +96,12 @@
     <ClInclude Include="ImGuiComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="XBox360Controller.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Commands.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MiniginPCH.cpp">
@@ -171,6 +177,12 @@
       <Filter>ImGui</Filter>
     </ClCompile>
     <ClCompile Include="ImGuiComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="XBox360Controller.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Commands.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
