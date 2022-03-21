@@ -4,34 +4,55 @@
 
 dae::InputManager::InputManager()
 {
-	m_pXboxController = new XBox360Controller(0);
+	m_pXboxController[0] = new XBox360Controller(0);
 }
 
 dae::InputManager::~InputManager()
 {
-	delete m_pXboxController;
+	for (XBox360Controller* pController : m_pXboxController)
+	{
+		delete pController;
+	}
 }
 
 bool dae::InputManager::ProcessInput()
 {
 	// todo: read the input;
-	m_pXboxController->Update();
 
-	for (ControllerCommandMap::iterator controllerIt = m_ConsoleCommands.begin(); controllerIt != m_ConsoleCommands.end(); ++controllerIt)
+	for (size_t controllerIdx{}; controllerIdx < XUSER_MAX_COUNT; ++controllerIdx)
 	{
-		if (m_pXboxController->IsDown(controllerIt->first.second))
-			controllerIt->second->Execute();
+		if (m_pXboxController[controllerIdx] == nullptr) //If there was not a controller initialized on that idx, continue
+			continue;
 
-		//Quick and dirty solution for ending the program
-		if (m_pXboxController->IsPressed(XBox360Controller::ControllerButton::Back))
-			return false;
+		m_pXboxController[controllerIdx]->Update();
+		for (ControllerCommandMap::iterator controllerIt = m_ConsoleCommands.begin(); controllerIt != m_ConsoleCommands.end(); ++controllerIt)
+		{
+			if (controllerIt->first.first != controllerIdx) //Checks if the current command isn't meant for the current controllerIdx
+				continue;
+
+			if (m_pXboxController[controllerIdx]->IsPressed(controllerIt->first.second) && controllerIt->second.second == CommandState::Pressed ||
+				m_pXboxController[controllerIdx]->IsDown(controllerIt->first.second) && controllerIt->second.second == CommandState::Down ||
+				m_pXboxController[controllerIdx]->IsUp(controllerIt->first.second) && controllerIt->second.second == CommandState::Up)
+				if (controllerIt->second.first)
+					controllerIt->second.first->Execute();
+
+			//Quick and dirty solution for ending the program
+			if (m_pXboxController[controllerIdx]->IsPressed(XBox360Controller::ControllerButton::Back))
+				return false;
+		}
+
 	}
-
 	return true;
 }
 
-void dae::InputManager::SetButtonCommand(unsigned int controllerIndex, XBox360Controller::ControllerButton button, Command* command)
+void dae::InputManager::SetButtonCommand(unsigned int controllerIndex, XBox360Controller::ControllerButton button, Command* command, CommandState state)
 {
-	m_ConsoleCommands[ControllerKey(controllerIndex, button)] = std::unique_ptr<Command>(command);
+	m_ConsoleCommands[ControllerKey(controllerIndex, button)] = std::pair(std::unique_ptr<Command>(command), state);
+}
+
+void dae::InputManager::RemoveButtonCommand(unsigned int controllerIndex, XBox360Controller::ControllerButton button)
+{
+	m_ConsoleCommands[ControllerKey(controllerIndex, button)].first = nullptr;
+	m_ConsoleCommands[ControllerKey(controllerIndex, button)].second = CommandState::Pressed;
 }
 

@@ -120,17 +120,14 @@ void dae::Minigin::LoadGame() const
 	FPSObject->AddComponent(fpsComponent);
 	scene.Add(FPSObject);
 
-	std::shared_ptr<GameObject> ImGuiObject = std::make_shared<GameObject>();
-	std::shared_ptr<ImGuiComponent> imGuiComponent = std::make_shared<ImGuiComponent>(ImGuiObject, m_Window);
-	ImGuiObject->AddComponent(imGuiComponent);
-	scene.Add(ImGuiObject);
-
 	//InputManager
 	auto& input = InputManager::GetInstance();
-	input.SetButtonCommand(0, XBox360Controller::ControllerButton::ButtonA, new JumpCommand());
-	input.SetButtonCommand(0, XBox360Controller::ControllerButton::ButtonB, new FireCommand());
-	input.SetButtonCommand(0, XBox360Controller::ControllerButton::ButtonX, new CrouchCommand());
-	input.SetButtonCommand(0, XBox360Controller::ControllerButton::ButtonY, new SwapGunCommand());
+	input.SetButtonCommand(0, XBox360Controller::ControllerButton::ButtonA, new JumpCommand(), CommandState::Down);
+	input.SetButtonCommand(0, XBox360Controller::ControllerButton::ButtonB, new FireCommand(), CommandState::Down);
+	input.SetButtonCommand(0, XBox360Controller::ControllerButton::ButtonX, new CrouchCommand(), CommandState::Down);
+	input.SetButtonCommand(0, XBox360Controller::ControllerButton::ButtonY, new SwapGunCommand(), CommandState::Down);
+
+	input.RemoveButtonCommand(0, XBox360Controller::ControllerButton::ButtonY);
 }
 
 void dae::Minigin::Cleanup()

@@ -42,31 +42,21 @@ dae::ImGuiComponent::ImGuiComponent(std::shared_ptr<GameObject> gameObject, SDL_
 	:BaseComponent{gameObject}
 	,m_pWindow{pWindow}
 {
-	//Initialize IMGUI ==================================================
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-	ImGui_ImplSDL2_InitForOpenGL(pWindow, SDL_GL_GetCurrentContext());
-	ImGui_ImplOpenGL2_Init();
-	//===================================================================
 }
 
 dae::ImGuiComponent::~ImGuiComponent()
 {
-	//Destroy IMGUI =========================
-	ImGui_ImplOpenGL2_Shutdown();
-	ImGui_ImplSDL2_Shutdown();
-	ImGui::DestroyContext();
-	//=======================================
-
 	m_pWindow = nullptr;
 }
 
 void dae::ImGuiComponent::Update(float)
 {
-	//Run ImGui =============================================
+	//ImGui newFrame
 	ImGui_ImplOpenGL2_NewFrame();
 	ImGui_ImplSDL2_NewFrame(m_pWindow);
 	ImGui::NewFrame();
+
+	//Run ImGui =============================================
 	ImGui::Begin("Exercise 2", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
 	ImGui::InputInt("# samples", &m_SamplesTTCInt);
 	if (ImGui::Button("Trash the Cache integers"))
@@ -178,8 +168,6 @@ void dae::ImGuiComponent::Update(float)
 
 void dae::ImGuiComponent::Render() const
 {
-	ImGui::Render();
-	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
 }
 
 //IMGUI Functions ====================================================
