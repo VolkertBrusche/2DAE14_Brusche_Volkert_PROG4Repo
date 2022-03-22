@@ -1,5 +1,9 @@
 #pragma once
 #include <iostream>
+#include "Scene.h"
+#include "GameObject.h"
+#include "HealthComponent.h"
+#include "PointsComponent.h"
 
 namespace dae
 {
@@ -37,6 +41,36 @@ namespace dae
 	public:
 		void Execute() override { std::cout << "Player Swapped Gun!\n"; }
 		void Undo() override { std::cout << "Undo Player Swap Gun!\n"; }
+	};
+
+	class KillPlayer final : public Command
+	{
+	public:
+		KillPlayer(std::shared_ptr<GameObject> gameObject) : Command{}, m_pGameObject{gameObject} {};
+
+		void Execute() override
+		{
+			m_pGameObject.lock()->GetChildAt(0)->GetComponent<HealthComponent>()->Suicide();
+		}
+		void Undo() override { std::cout << "Undo Kill Player!\n"; }
+
+	private:
+		std::weak_ptr<GameObject> m_pGameObject;
+	};
+
+	class AddPointsCommand final : public Command
+	{
+	public:
+		AddPointsCommand(std::shared_ptr<GameObject> gameObject) : Command{}, m_pGameObject{ gameObject } {};
+
+		void Execute() override
+		{
+			m_pGameObject.lock()->GetChildAt(1)->GetComponent<PointsComponent>()->AddPoints();
+		}
+		void Undo() override { std::cout << "Undo AddPoints\n"; }
+
+	private:
+		std::weak_ptr<GameObject> m_pGameObject;
 	};
 }
 

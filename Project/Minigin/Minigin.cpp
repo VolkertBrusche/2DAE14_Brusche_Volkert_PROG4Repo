@@ -13,6 +13,14 @@
 #include "TransformComponent.h"
 #include "FPSComponent.h"
 #include "ImGuiComponent.h"
+#include "PeterPepperComponent.h"
+#include "HealthComponent.h"
+#include "PointsComponent.h"
+//================================
+
+//Observers ======================
+#include "Achievements.h"
+#include "DisplayObserver.h"
 //================================
 
 #include "GameObject.h"
@@ -73,23 +81,6 @@ void dae::Minigin::LoadGame() const
 	std::shared_ptr<TransformComponent> transformComponent = std::make_shared<TransformComponent>(backgroundObject);
 	backgroundObject->AddComponent(transformComponent);
 
-	//Testing RemoveComponent
-	std::shared_ptr<FPSComponent> textComp = std::make_shared<FPSComponent>(backgroundObject);
-	backgroundObject->AddComponent(textComp);
-	backgroundObject->RemoveComponent(backgroundObject->GetComponent<FPSComponent>());
-	scene.Add(backgroundObject);
-
-	//Testing child&parent
-	auto go1 = std::make_shared<GameObject>();
-	auto go2 = std::make_shared<GameObject>();
-	auto go3 = std::make_shared<GameObject>();
-
-	go2->SetParent(go1);
-	go3->SetParent(go1);
-
-	go1->SetParent(go3);
-	go1->SetParent(go2);
-
 	std::shared_ptr<GameObject> logoObject = std::make_shared<GameObject>();
 	textureComponent = std::make_shared<TextureComponent>(logoObject);
 	textureComponent->SetTexture("logo.png");
@@ -122,12 +113,87 @@ void dae::Minigin::LoadGame() const
 
 	//InputManager
 	auto& input = InputManager::GetInstance();
-	input.SetButtonCommand(0, XBox360Controller::ControllerButton::ButtonA, new JumpCommand(), CommandState::Down);
-	input.SetButtonCommand(0, XBox360Controller::ControllerButton::ButtonB, new FireCommand(), CommandState::Down);
-	input.SetButtonCommand(0, XBox360Controller::ControllerButton::ButtonX, new CrouchCommand(), CommandState::Down);
-	input.SetButtonCommand(0, XBox360Controller::ControllerButton::ButtonY, new SwapGunCommand(), CommandState::Down);
 
-	input.RemoveButtonCommand(0, XBox360Controller::ControllerButton::ButtonY);
+	//Observers
+	Achievements* pAchievements = new Achievements();
+	DisplayObserver* pDisplayObserver = new DisplayObserver();
+
+	//Observer & Event Queue test
+	//PeterPepperObj 1 ======================================================================================================
+	std::shared_ptr<GameObject> peterpepperObject = std::make_shared<GameObject>();
+	std::shared_ptr<PeterPepperComponent> peterPepperComponent = std::make_shared<PeterPepperComponent>(peterpepperObject);
+	peterpepperObject->AddComponent(peterPepperComponent);
+
+	std::shared_ptr<GameObject> healthObject = std::make_shared<GameObject>();
+	std::shared_ptr<HealthComponent> healthComponent = std::make_shared<HealthComponent>(healthObject, 3);
+	healthComponent->AddObserver(pAchievements);
+	healthComponent->AddObserver(pDisplayObserver);
+	healthObject->AddComponent(healthComponent);
+	textComponent = std::make_shared<TextComponent>("Lives: 0", FPSFont, healthObject);
+	textComponent->SetText("Lives: " + std::to_string(healthComponent->GetLives()));
+	textComponent->SetColor({ 255, 255, 0 });
+	healthObject->AddComponent(textComponent);
+	transformComponent = std::make_shared<TransformComponent>(healthObject);
+	transformComponent->SetPosition(10, 200);
+	healthObject->AddComponent(transformComponent);
+
+	std::shared_ptr<GameObject> pointsObject = std::make_shared<GameObject>();
+	std::shared_ptr<PointsComponent> pointsComponent = std::make_shared<PointsComponent>(pointsObject);
+	pointsComponent->AddObserver(pDisplayObserver);
+	pointsObject->AddComponent(pointsComponent);
+	textComponent = std::make_shared<TextComponent>("Points: 0", FPSFont, pointsObject);
+	textComponent->SetColor({ 255, 255, 0 });
+	pointsObject->AddComponent(textComponent);
+	transformComponent = std::make_shared<TransformComponent>(pointsObject);
+	transformComponent->SetPosition(10, 225);
+	pointsObject->AddComponent(transformComponent);
+	
+	peterpepperObject->AddChild(healthObject);
+	peterpepperObject->AddChild(pointsObject);
+
+	scene.Add(peterpepperObject);
+
+	input.SetButtonCommand(0, XBox360Controller::ControllerButton::ButtonY, new KillPlayer(peterpepperObject), CommandState::Down);
+	input.SetButtonCommand(0, XBox360Controller::ControllerButton::ButtonX, new AddPointsCommand(peterpepperObject), CommandState::Down);
+	//========================================================================================================================
+
+	//PeterPepperObj 2 ======================================================================================================
+	peterpepperObject = std::make_shared<GameObject>();
+	peterPepperComponent = std::make_shared<PeterPepperComponent>(peterpepperObject);
+	peterpepperObject->AddComponent(peterPepperComponent);
+
+	healthObject = std::make_shared<GameObject>();
+	healthComponent = std::make_shared<HealthComponent>(healthObject, 3);
+	healthComponent->AddObserver(pAchievements);
+	healthComponent->AddObserver(pDisplayObserver);
+	healthObject->AddComponent(healthComponent);
+	textComponent = std::make_shared<TextComponent>("Lives: 0", FPSFont, healthObject);
+	textComponent->SetText("Lives: " + std::to_string(healthComponent->GetLives()));
+	textComponent->SetColor({ 0, 255, 0 });
+	healthObject->AddComponent(textComponent);
+	transformComponent = std::make_shared<TransformComponent>(healthObject);
+	transformComponent->SetPosition(10, 300);
+	healthObject->AddComponent(transformComponent);
+
+	pointsObject = std::make_shared<GameObject>();
+	pointsComponent = std::make_shared<PointsComponent>(pointsObject);
+	pointsComponent->AddObserver(pDisplayObserver);
+	pointsObject->AddComponent(pointsComponent);
+	textComponent = std::make_shared<TextComponent>("Points: 0", FPSFont, pointsObject);
+	textComponent->SetColor({ 0, 255, 0 });
+	pointsObject->AddComponent(textComponent);
+	transformComponent = std::make_shared<TransformComponent>(pointsObject);
+	transformComponent->SetPosition(10, 325);
+	pointsObject->AddComponent(transformComponent);
+
+	peterpepperObject->AddChild(healthObject);
+	peterpepperObject->AddChild(pointsObject);
+
+	scene.Add(peterpepperObject);
+
+	input.SetButtonCommand(0, XBox360Controller::ControllerButton::ButtonA, new KillPlayer(peterpepperObject), CommandState::Down);
+	input.SetButtonCommand(0, XBox360Controller::ControllerButton::ButtonB, new AddPointsCommand(peterpepperObject), CommandState::Down);
+	//========================================================================================================================
 }
 
 void dae::Minigin::Cleanup()

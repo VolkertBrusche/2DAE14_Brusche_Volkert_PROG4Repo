@@ -10,14 +10,13 @@ namespace dae
         PeterPepperComponent(std::shared_ptr<GameObject> gameObject);
         virtual ~PeterPepperComponent();
 
-        virtual void Update(float deltaTime) override;
-        virtual void Render() const override;
+        PeterPepperComponent(const PeterPepperComponent& other) = delete;
+        PeterPepperComponent(PeterPepperComponent&& other) = delete;
+        PeterPepperComponent& operator=(const PeterPepperComponent& other) = delete;
+        PeterPepperComponent& operator=(PeterPepperComponent&& other) = delete;
 
-        void Die();
+        void Update(float elapsedSec) override;
     private:
-        std::unique_ptr<Subject> m_pActorDied = nullptr;
-        int m_Lives{};
-        int m_Points{};
     };
 }
 

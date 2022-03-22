@@ -13,7 +13,7 @@ namespace dae
 		void RemoveObserver(Observer* observer);
 
 	protected:
-		void Notify(const GameObject& actor, Event event);
+		void Notify(const GameObject& gameObject, Event event);
 
 	private:
 		std::vector<Observer*> m_pObservers;

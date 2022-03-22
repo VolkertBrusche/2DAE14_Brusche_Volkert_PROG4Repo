@@ -197,15 +197,18 @@
     <ClInclude Include="Achievements.h" />
     <ClInclude Include="BaseComponent.h" />
     <ClInclude Include="Commands.h" />
+    <ClInclude Include="DisplayObserver.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="FPSComponent.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="HealthComponent.h" />
     <ClInclude Include="ImGuiComponent.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Minigin.h" />
     <ClInclude Include="MiniginPCH.h" />
     <ClInclude Include="Observer.h" />
     <ClInclude Include="PeterPepperComponent.h" />
+    <ClInclude Include="PointsComponent.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Scene.h" />
@@ -302,9 +305,11 @@
     <ClCompile Include="Achievements.cpp" />
     <ClCompile Include="BaseComponent.cpp" />
     <ClCompile Include="Commands.cpp" />
+    <ClCompile Include="DisplayObserver.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="FPSComponent.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="HealthComponent.cpp" />
     <ClCompile Include="ImGuiComponent.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -318,6 +323,7 @@
     </ClCompile>
     <ClCompile Include="Observer.cpp" />
     <ClCompile Include="PeterPepperComponent.cpp" />
+    <ClCompile Include="PointsComponent.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scene.cpp" />

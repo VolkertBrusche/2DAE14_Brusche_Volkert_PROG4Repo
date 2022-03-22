@@ -12,10 +12,10 @@ void dae::Subject::RemoveObserver(Observer* observer)
 	m_pObservers.erase(std::find(m_pObservers.begin(), m_pObservers.end(), observer));
 }
 
-void dae::Subject::Notify(const GameObject& actor, Event event)
+void dae::Subject::Notify(const GameObject& gameObject, Event event)
 {
 	for (Observer* observer : m_pObservers)
 	{
-		observer->Notify(actor, event);
+		observer->Notify(gameObject, event);
 	}
 }

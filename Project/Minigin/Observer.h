@@ -5,14 +5,16 @@ namespace dae
 {
 	enum class Event
 	{
-		ActorDied
+		ActorDied,
+		LivesChanged,
+		PointsChanged
 	};
 
 	class Observer
 	{
 	public:
 		virtual ~Observer() = default;
-		virtual void Notify(const GameObject& actor, Event event) = 0;
+		virtual void Notify(const GameObject& gameObject, Event event) = 0;
 	};
 }
 
