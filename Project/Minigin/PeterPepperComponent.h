@@ -15,7 +15,9 @@ namespace dae
 
         void Die();
     private:
-        std::unique_ptr<Subject> m_pActorChanged = nullptr;
+        std::unique_ptr<Subject> m_pActorDied = nullptr;
+        int m_Lives{};
+        int m_Points{};
     };
 }
 

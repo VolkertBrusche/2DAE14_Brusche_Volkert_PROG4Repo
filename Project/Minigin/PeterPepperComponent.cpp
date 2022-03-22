@@ -1,5 +1,6 @@
 #include "MiniginPCH.h"
 #include "PeterPepperComponent.h"
+#include "Achievements.h"
 
 dae::PeterPepperComponent::PeterPepperComponent(std::shared_ptr<GameObject> gameObject)
 	:BaseComponent{gameObject}

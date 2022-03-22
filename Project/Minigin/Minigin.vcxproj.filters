@@ -111,6 +111,9 @@
     <ClInclude Include="PeterPepperComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Achievements.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MiniginPCH.cpp">
@@ -201,6 +204,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PeterPepperComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Achievements.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
