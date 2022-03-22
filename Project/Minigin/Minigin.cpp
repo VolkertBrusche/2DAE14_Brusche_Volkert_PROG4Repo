@@ -26,6 +26,9 @@
 #include "GameObject.h"
 #include "Scene.h"
 #include <chrono>
+#include <ratio>
+
+//#include <steam_api.h>
 
 using namespace std;
 
@@ -145,7 +148,7 @@ void dae::Minigin::LoadGame() const
 	textComponent->SetColor({ 255, 255, 0 });
 	pointsObject->AddComponent(textComponent);
 	transformComponent = std::make_shared<TransformComponent>(pointsObject);
-	transformComponent->SetPosition(10, 225);
+	transformComponent->SetPosition(10, 220);
 	pointsObject->AddComponent(transformComponent);
 	
 	peterpepperObject->AddChild(healthObject);
@@ -183,7 +186,7 @@ void dae::Minigin::LoadGame() const
 	textComponent->SetColor({ 0, 255, 0 });
 	pointsObject->AddComponent(textComponent);
 	transformComponent = std::make_shared<TransformComponent>(pointsObject);
-	transformComponent->SetPosition(10, 325);
+	transformComponent->SetPosition(10, 320);
 	pointsObject->AddComponent(transformComponent);
 
 	peterpepperObject->AddChild(healthObject);
@@ -194,6 +197,26 @@ void dae::Minigin::LoadGame() const
 	input.SetButtonCommand(0, XBox360Controller::ControllerButton::ButtonA, new KillPlayer(peterpepperObject), CommandState::Down);
 	input.SetButtonCommand(0, XBox360Controller::ControllerButton::ButtonB, new AddPointsCommand(peterpepperObject), CommandState::Down);
 	//========================================================================================================================
+	auto htpFont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 12);
+
+	std::string htp1{ "How to play: Press Y to kill player one || Press X to increase points of player one" };
+	std::shared_ptr<GameObject> htpObject = std::make_shared<GameObject>();
+	textComponent = std::make_shared<TextComponent>(htp1, htpFont, htpObject);
+	htpObject->AddComponent(textComponent);
+	transformComponent = std::make_shared<TransformComponent>(htpObject);
+	transformComponent->SetPosition(10, 100);
+	htpObject->AddComponent(transformComponent);
+	scene.Add(htpObject);
+
+	htp1 = { "Press A to kill player two || Press B to increase points of player two" };
+	htpObject = std::make_shared<GameObject>();
+	textComponent = std::make_shared<TextComponent>(htp1, htpFont, htpObject);
+	htpObject->AddComponent(textComponent);
+	transformComponent = std::make_shared<TransformComponent>(htpObject);
+	transformComponent->SetPosition(80, 115);
+	htpObject->AddComponent(transformComponent);
+
+	scene.Add(htpObject);
 }
 
 void dae::Minigin::Cleanup()
@@ -221,23 +244,32 @@ void dae::Minigin::Run()
 		// todo: this update loop could use some work.
 		float fixedTimeStep = 0.02f;
 
-		bool doContinue = true;
 		auto lastTime = chrono::high_resolution_clock::now();
+		float deltaTime{};
+
+		bool doContinue = true;
 		float lag = 0.0f;
 		while (doContinue)
 		{
 			const auto currentTime = chrono::high_resolution_clock::now();
-			float deltaTime = chrono::duration<float>(currentTime - lastTime).count();
+			deltaTime = chrono::duration<float>(currentTime - lastTime).count();
 			lastTime = currentTime;
 			lag += deltaTime;
+
 			doContinue = input.ProcessInput();
+			sceneManager.Update(deltaTime);
+
+			//SteamAPI_RunCallbacks();
+			
 			while (lag >= fixedTimeStep)
 			{
 				sceneManager.FixedUpdate(fixedTimeStep);
 				lag -= fixedTimeStep;
 			}
-			sceneManager.Update(deltaTime);
 			renderer.Render();
+
+			auto sleepTime = std::chrono::duration_cast<std::chrono::duration<float>>(currentTime + std::chrono::milliseconds(MsPerFrame) - std::chrono::high_resolution_clock::now());
+			std::this_thread::sleep_for(sleepTime);
 		}
 	}
 

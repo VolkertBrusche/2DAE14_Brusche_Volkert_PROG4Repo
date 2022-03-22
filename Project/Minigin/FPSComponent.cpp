@@ -15,7 +15,7 @@ dae::FPSComponent::~FPSComponent()
 
 void dae::FPSComponent::Update(float deltaTime)
 {
-	m_FPS = static_cast<int>(1 / deltaTime);
+	m_FPS = static_cast<int>(1.f / deltaTime);
 	m_pLinkedGameObject.lock().get()->GetComponent<TextComponent>()->SetText(std::to_string(m_FPS) + " FPS");
 }
 
